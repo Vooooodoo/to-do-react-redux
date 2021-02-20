@@ -1,5 +1,5 @@
 {
-  "name": "react-to-do",
+  "name": "redux-to-do",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
