@@ -2,10 +2,38 @@ import React from 'react';
 import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import MAX_LENGTH from '../../utils/constants';
 import { addDataToLocalStorage, getDataFromLocalStorage } from '../../utils/helpers';
+import { store } from '../../store/store'
 import Footer from '../Footer';
 import GlobalStyle from '../GlobalStyle';
 import Header from '../Header';
 import Main from '../Main';
+
+
+
+// Создадим экшены для изменения данных из текущего состояния,
+// это обычный JS объект обладающий специальными свойствами,
+// type - строка с уникальным названием экшена
+// payload - новое значение "переменной состояния"
+const changeName = {
+  type: 'CHANGE_NAME',
+  payload: 'Romeo',
+}
+
+const changeSecondName = {
+  type: 'CHANGE_SECOND_NAME',
+  payload: 'Andrietti',
+}
+
+// Запустим экшн с помощью специального метода dispatch() объекта store,
+// в качестве аргумента передадим ему сам экшн, который хотим запустить,
+// затем store вызовет функцию reducer
+store.dispatch(changeName);
+store.dispatch(changeSecondName);
+
+// С помощью метода getState() мы можем получить текущее состояние данных
+console.log(store.getState());
+
+
 
 class App extends React.Component {
   constructor() {
