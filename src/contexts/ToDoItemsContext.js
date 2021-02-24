@@ -1,3 +1,5 @@
 import React from 'react';
 
-export const ToDoItemsContext = React.createContext();
+const ToDoItemsContext = React.createContext();
+
+export default ToDoItemsContext;

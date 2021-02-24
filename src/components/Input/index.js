@@ -1,16 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Section = styled.section`
+  position: relative;
+`;
+
 const StyledInput = styled.input`
   width: 100%;
   height: 65px;
   box-sizing: border-box;
   font-size: 24px;
   padding: 0 15px;
+  padding-left: 57px;
   border: none;
   margin-bottom: 1px;
   outline-color: ${props => props.isMaxLength ? '#af1045' : 'black'};
   color: ${props => props.isMaxLength ? '#af1045' : 'black'};
+
+  @media all and (max-width: 424px) {
+    font-size: 20px;
+  }
 `;
 
 const ValidationMessage = styled.p`
@@ -20,10 +29,11 @@ const ValidationMessage = styled.p`
 
 function Input(props) {
   return (
-    <section>
+    <Section>
+      {props.children}
       <StyledInput
         type="text"
-        autoFocus={props.autofocus}
+        autoFocus={props.isAutofocus}
         placeholder={props.placeholder}
         value={props.inputValue}
         isMaxLength={props.isMaxLength}
@@ -34,7 +44,7 @@ function Input(props) {
       {props.isMaxLength && (
         <ValidationMessage>{`${props.inputValue.length} characters limit`}</ValidationMessage>
       )}
-    </section>
+    </Section>
   );
 }
 

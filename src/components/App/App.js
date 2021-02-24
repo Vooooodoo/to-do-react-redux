@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToDoItemsContext } from '../../contexts/ToDoItemsContext';
+import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import MAX_LENGTH from '../../utils/constants';
 import { addDataToLocalStorage, getDataFromLocalStorage } from '../../utils/helpers';
 import Footer from '../Footer';
@@ -18,6 +18,7 @@ class App extends React.Component {
       isEditInputMaxLength: false,
       toDoItems: [],
       radioValue: 'All',
+      isAllCompleted: false,
     };
   }
 
@@ -45,6 +46,14 @@ class App extends React.Component {
     addDataToLocalStorage(data);
     this.setState({
       toDoItems: data,
+    });
+  }
+
+  setIsAllCompleted = (arr) => {
+    const isAllCompleted = arr.every(item => item.isCompleted);
+
+    this.setState({
+      isAllCompleted: isAllCompleted,
     });
   }
 
@@ -87,18 +96,32 @@ class App extends React.Component {
       }
       const newToDoItems = [newToDoItem, ...this.state.toDoItems];
 
-      addDataToLocalStorage(newToDoItems);
+      this.setIsAllCompleted(newToDoItems);
       this.setState({
         createInputValue: '',
         toDoItems: newToDoItems,
         isCreateInputMaxLength: false,
       });
+      addDataToLocalStorage(newToDoItems);
     }
   }
 
   handleCheckbox = (evt, evtTargetId) => {
     const newToDoItems = this.createNewToDoItemsArr('isCompleted', evt.target.checked, evtTargetId);
 
+    this.setIsAllCompleted(newToDoItems);
+    this.saveData(newToDoItems);
+  }
+
+  handleCheckAll = () => {
+    const isAllCompleted = this.state.toDoItems.every(item => item.isCompleted);
+    const newToDoItems = this.state.toDoItems.map(item => {
+      item.isCompleted = !isAllCompleted;
+
+      return item;
+    });
+
+    this.setIsAllCompleted(newToDoItems);
     this.saveData(newToDoItems);
   }
 
@@ -109,23 +132,9 @@ class App extends React.Component {
   }
 
   handleRadio = (evt) => {
-    if (evt.target.value === 'All') {
-      this.setState({
-        radioValue: 'All',
-      });
-    }
-
-    if (evt.target.value === 'Active') {
-      this.setState({
-        radioValue: 'Active',
-      });
-    }
-
-    if (evt.target.value === 'Completed') {
-      this.setState({
-        radioValue: 'Completed',
-      });
-    }
+    this.setState({
+      radioValue: evt.target.value,
+    });
   }
 
   handleClearCompletedBtn = () => {
@@ -136,12 +145,11 @@ class App extends React.Component {
 
   handleEdetingDblClick = (evtTargetId) => {
     const newToDoItems = this.createNewToDoItemsArr('isEditable', true, evtTargetId);
-    const editableText = newToDoItems.filter(item => item.isEditable)[0].text;
+    const editableText = newToDoItems.find(item => item.isEditable).text;
 
     this.setState({
       editInputValue: editableText,
     });
-
     this.saveData(newToDoItems);
   }
 
@@ -172,10 +180,13 @@ class App extends React.Component {
           isCreateInputMaxLength={this.state.isCreateInputMaxLength}
           editInputValue={this.state.editInputValue}
           isEditInputMaxLength={this.state.isEditInputMaxLength}
+          isAllCompleted={this.state.isAllCompleted}
+          toDoItems={this.state.toDoItems}
           onCreateInputChange={this.handleCreateInputChange}
           onEditInputChange={this.handleEditInputChange}
           onKeyDown={this.handleEnter}
           onCheckboxChange={this.handleCheckbox}
+          onCheckAllChange={this.handleCheckAll}
           onDelBtnClick={this.deleteToDoItem}
           onToDoItemDblClick={this.handleEdetingDblClick}
           onBlur={this.handleInputBlur}

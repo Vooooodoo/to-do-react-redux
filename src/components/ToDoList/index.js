@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ToDoItemsContext } from '../../contexts/ToDoItemsContext';
+import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import Input from '../Input';
 import ToDoItem from '../ToDoItem';
 
@@ -26,8 +26,6 @@ function ToDoList(props) {
     if (radioValue === 'Completed') {
       return toDoItems.filter(item => item.isCompleted);
     }
-
-    return toDoItems;
   }
 
   const renderArr = createRenderArr();
@@ -41,10 +39,10 @@ function ToDoList(props) {
                  key={item.id}
                  id={item.id}
                  inputValue={props.inputValue}
-                 autofocus={true}
                  onChange={evt => props.onEditInputChange(evt, item.id)}
                  onBlur={props.onBlur}
                  isMaxLength={props.isEditInputMaxLength}
+                 isAutofocus
                />)
             : (<ToDoItem
                  key={item.id}

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ToDoItemsContext } from '../../contexts/ToDoItemsContext';
+import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import Radio from '../Radio';
 
 const StyledFooter = styled.footer`
@@ -77,8 +77,8 @@ function Footer(props) {
         <Radio
           id="radio-all"
           text="All"
-          isChecked
           onRadioChange={props.onRadioChange}
+          isChecked
         />
         <Radio
           id="radio-active"
