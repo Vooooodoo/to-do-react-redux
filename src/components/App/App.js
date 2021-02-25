@@ -1,4 +1,7 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux'; // функция для подключения реакт компонента к redux store
+import { changeName, changeSecondName } from '../../store/actions'
 import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import MAX_LENGTH from '../../utils/constants';
 import { addDataToLocalStorage, getDataFromLocalStorage } from '../../utils/helpers';
@@ -8,6 +11,7 @@ import Footer from '../Footer';
 import GlobalStyle from '../GlobalStyle';
 import Header from '../Header';
 import Main from '../Main';
+
 
 
 // создадим экшены для изменения данных из текущего состояния,
@@ -26,14 +30,14 @@ const changeSecondNameAction = {
 
 // объявим action creator функции, чтобы не создавать каждый раз новый payload,
 // а передавать его в качестве аргумента
-const changeName = newName => {
+const changeNameActionCreator = newName => {
   return {
     type: CHANGE_NAME,
     payload: newName,
   }
 }
 
-const changeSecondName = newSecondName => {
+const changeSecondNameActionCreator = newSecondName => {
   return {
     type: CHANGE_SECOND_NAME,
     payload: newSecondName,
@@ -43,8 +47,8 @@ const changeSecondName = newSecondName => {
 // запустим экшн с помощью специального метода объекта store - dispatch(),
 // в качестве аргумента передадим ему сам экшн, который хотим запустить,
 // затем store вызовет функцию reducer
-store.dispatch(changeName('Тензин'));
-store.dispatch(changeSecondName('Гьяцо'));
+store.dispatch(changeNameActionCreator('Тензин'));
+store.dispatch(changeSecondNameActionCreator('Гьяцо'));
 
 // с помощью метода getState() мы можем получить весь объект с текущим состоянием данных
 console.log(store.getState());
@@ -52,9 +56,8 @@ console.log(store.getState());
 // с помощью функций селекторов можно получить не весь объект состояния,
 // а только какое нибудь определённое свойство
 const selectName = state => state.name;
-
-const currentName = selectName(store.getState())
-console.log(currentName)
+const currentName = selectName(store.getState());
+console.log(currentName);
 
 
 
@@ -71,11 +74,6 @@ class App extends React.Component {
       radioValue: 'All',
       isAllCompleted: false,
     };
-
-    this.name = {
-      type: CHANGE_NAME,
-      payload: 'Hello!',
-    }
   }
 
   componentDidMount() {
@@ -86,7 +84,7 @@ class App extends React.Component {
     });
 
     console.log(this.props.store); // получили доступ к redux store
-    this.props.dispatch(this.name); // получили доступ к методу dispatch()
+    this.props.changeName('Harry Potter'); // получили доступ к action creators
   }
 
   createNewToDoItemsArr = (key, value, elementId) => {
@@ -261,4 +259,21 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const putStateToProps = (state) => {
+  return {
+    store: state,
+  }
+}
+
+const putActionCreatorsToProps = (dispatch) => {
+  return {
+    changeName: bindActionCreators(changeName, dispatch),
+    changeSecondName: bindActionCreators(changeSecondName, dispatch),
+  }
+}
+
+// подключим App к redux store, и дадим компоненту доступ к актуальным данным,
+// которые мы вернём в теле функции putStateToProps(state),
+// также поместим в пропсы actions creators с помощью функции putActionCreatorsToProps(dispatch)
+// также у компонента появится доступ к методу dispatch()
+export default connect(putStateToProps, putActionCreatorsToProps)(App);
