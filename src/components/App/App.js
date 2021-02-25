@@ -2,36 +2,59 @@ import React from 'react';
 import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import MAX_LENGTH from '../../utils/constants';
 import { addDataToLocalStorage, getDataFromLocalStorage } from '../../utils/helpers';
-import { store } from '../../store/store'
+import { store } from '../../store/store';
+import { CHANGE_NAME, CHANGE_SECOND_NAME } from '../../store/constants/actionTypes'
 import Footer from '../Footer';
 import GlobalStyle from '../GlobalStyle';
 import Header from '../Header';
 import Main from '../Main';
 
 
-
-// Создадим экшены для изменения данных из текущего состояния,
+// создадим экшены для изменения данных из текущего состояния,
 // это обычный JS объект обладающий специальными свойствами,
 // type - строка с уникальным названием экшена
 // payload - новое значение "переменной состояния"
-const changeName = {
-  type: 'CHANGE_NAME',
+const changeNameAction = {
+  type: CHANGE_NAME,
   payload: 'Romeo',
 }
 
-const changeSecondName = {
-  type: 'CHANGE_SECOND_NAME',
+const changeSecondNameAction = {
+  type: CHANGE_SECOND_NAME,
   payload: 'Andrietti',
 }
 
-// Запустим экшн с помощью специального метода dispatch() объекта store,
+// объявим action creator функции, чтобы не создавать каждый раз новый payload,
+// а передавать его в качестве аргумента
+const changeName = newName => {
+  return {
+    type: CHANGE_NAME,
+    payload: newName,
+  }
+}
+
+const changeSecondName = newSecondName => {
+  return {
+    type: CHANGE_SECOND_NAME,
+    payload: newSecondName,
+  }
+}
+
+// запустим экшн с помощью специального метода объекта store - dispatch(),
 // в качестве аргумента передадим ему сам экшн, который хотим запустить,
 // затем store вызовет функцию reducer
-store.dispatch(changeName);
-store.dispatch(changeSecondName);
+store.dispatch(changeName('Тензин'));
+store.dispatch(changeSecondName('Гьяцо'));
 
-// С помощью метода getState() мы можем получить текущее состояние данных
+// с помощью метода getState() мы можем получить весь объект с текущим состоянием данных
 console.log(store.getState());
+
+// с помощью функций селекторов можно получить не весь объект состояния,
+// а только какое нибудь определённое свойство
+const selectName = state => state.name;
+
+const currentName = selectName(store.getState())
+console.log(currentName)
 
 
 
@@ -48,6 +71,11 @@ class App extends React.Component {
       radioValue: 'All',
       isAllCompleted: false,
     };
+
+    this.name = {
+      type: CHANGE_NAME,
+      payload: 'Hello!',
+    }
   }
 
   componentDidMount() {
@@ -56,6 +84,9 @@ class App extends React.Component {
     this.setState({
       toDoItems: initData ? JSON.parse(initData) : [],
     });
+
+    console.log(this.props.store); // получили доступ к redux store
+    this.props.dispatch(this.name); // получили доступ к методу dispatch()
   }
 
   createNewToDoItemsArr = (key, value, elementId) => {

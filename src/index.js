@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect, Provider } from 'react-redux'; // функции для подключения react компонента к redux стор
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
+import { store } from './store/store';
+
+const mapStateToProps = (state) => {
+  return {
+    store: state,
+  }
+}
+
+// подключим App к redux store, и дадим компоненту доступ к актуальным данным,
+// которые мы вернём в теле функции mapStateToProps(state), они окажутся в props
+// также у компонента появится доступ к методу dispatch()
+const WrappedApp = connect(mapStateToProps)(App);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <WrappedApp />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
