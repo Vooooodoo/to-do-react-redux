@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import {
   setCreateInputValue,
   setIsCreateInputMaxLength,
+  setToDoItems,
+  setIsAllCompleted,
 } from '../../store/actions';
+import { addDataToLocalStorage } from '../../utils/helpers';
 import MAX_LENGTH from '../../utils/constants';
 import Input from '../Input';
 import ToDoList from '../ToDoList';
@@ -20,6 +23,28 @@ function Main(props) {
     }
   }
 
+  const handleEnter = (evt) => {
+    const trimmedInputValue = props.createInputValue.trim();
+
+    if (evt.key === 'Enter' && trimmedInputValue) {
+      const id = Date.now();
+      const newToDoItem = {
+        id,
+        text: trimmedInputValue,
+        isCompleted: false,
+        isEditable: false,
+      }
+      const newToDoItems = [newToDoItem, ...props.toDoItems];
+      const isAllCompleted = newToDoItems.every(item => item.isCompleted);
+
+      props.setIsAllCompleted(isAllCompleted);
+      props.setCreateInputValue('');
+      props.setIsCreateInputMaxLength(false);
+      props.setToDoItems(newToDoItems);
+      addDataToLocalStorage(newToDoItems);
+    }
+  }
+
   return (
     <main>
       <Input
@@ -27,7 +52,7 @@ function Main(props) {
         isMaxLength={props.isCreateInputMaxLength}
         placeholder="What needs to be done?"
         onChange={handleCreateInputChange}
-        onKeyDown={props.onKeyDown}
+        onKeyDown={handleEnter}
         onBlur={props.onBlur}
       >
         {Boolean(props.toDoItems.length) && (
@@ -59,6 +84,8 @@ const putActionCreatorsToProps = (dispatch) => {
   return {
     setCreateInputValue: bindActionCreators(setCreateInputValue, dispatch),
     setIsCreateInputMaxLength: bindActionCreators(setIsCreateInputMaxLength, dispatch),
+    setToDoItems: bindActionCreators(setToDoItems, dispatch),
+    setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
   }
 }
 

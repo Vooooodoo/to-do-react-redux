@@ -40,37 +40,16 @@ class App extends React.Component {
     this.props.setToDoItems(data);
   }
 
-  setIsAllCompleted = (arr) => {
+  changeIsAllCompleted = (arr) => {
     const isAllCompleted = arr.every(item => item.isCompleted);
 
     this.props.setIsAllCompleted(isAllCompleted);
   }
 
-  handleEnter = (evt) => {
-    const trimmedInputValue = this.props.store.createInputValue.trim();
-
-    if (evt.key === 'Enter' && trimmedInputValue) {
-      const id = Date.now();
-      const newToDoItem = {
-        id,
-        text: trimmedInputValue,
-        isCompleted: false,
-        isEditable: false,
-      }
-      const newToDoItems = [newToDoItem, ...this.props.store.toDoItems];
-
-      this.setIsAllCompleted(newToDoItems);
-      this.props.setCreateInputValue('');
-      this.props.setToDoItems(newToDoItems);
-      this.props.setIsCreateInputMaxLength(false);
-      addDataToLocalStorage(newToDoItems);
-    }
-  }
-
   handleCheckbox = (evt, evtTargetId) => {
     const newToDoItems = this.createNewToDoItemsArr('isCompleted', evt.target.checked, evtTargetId);
 
-    this.setIsAllCompleted(newToDoItems);
+    this.changeIsAllCompleted(newToDoItems);
     this.saveData(newToDoItems);
   }
 
@@ -82,7 +61,7 @@ class App extends React.Component {
       return item;
     });
 
-    this.setIsAllCompleted(newToDoItems);
+    this.changeIsAllCompleted(newToDoItems);
     this.saveData(newToDoItems);
   }
 
@@ -133,7 +112,6 @@ class App extends React.Component {
         <GlobalStyle />
         <Header />
         <Main
-          onKeyDown={this.handleEnter}
           onCheckboxChange={this.handleCheckbox}
           onCheckAllChange={this.handleCheckAll}
           onToDoItemDblClick={this.handleEdetingDblClick}
