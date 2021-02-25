@@ -1,24 +1,61 @@
-import { CHANGE_NAME, CHANGE_SECOND_NAME } from '../constants/actionTypes'
+import {
+  SET_CREATE_INPUT_VALUE,
+  SET_IS_CREATE_INPUT_VALUE_MAX_LENGTH,
+  SET_EDIT_INPUT_VALUE,
+  SET_IS_EDIT_INPUT_VALUE_MAX_LENGTH,
+  SET_TO_DO_ITEMS,
+  SET_RADIO_VALUE,
+  SET_IS_ALL_COMPLETED,
+} from '../constants/actionTypes'
 import initialState from '../initialState';
 
-// функция reducer принимает в качестве аргументов объект с текущим состоянием и
-// экшн - объект с уникальным названием экшена и новым значением "переменной состояния",
-// в условной конструкции возвращаем новый объект состояния с изменённым свойством,
-// которое мы передали в payload, в зависимости от экшена,
-// если в условной конструкции ничего не вернули, то в конце вернуть изначальный стейт,
-// это своего рода эвент лисенеры, если проводить аналогии
 function reducer(state = initialState, action) {
-  if (action.type === CHANGE_NAME) {
+  if (action.type === SET_CREATE_INPUT_VALUE) {
     return {
       ...state,
-      name: action.payload,
-    } // не мутируем текущий объект, а создаём новый, ключевая концепция redux
+      createInputValue: action.payload,
+    }
   }
 
-  if (action.type === CHANGE_SECOND_NAME) {
+  if (action.type === SET_IS_CREATE_INPUT_VALUE_MAX_LENGTH) {
     return {
       ...state,
-      secondName: action.payload
+      isCreateInputMaxLength: action.payload
+    }
+  }
+
+  if (action.type === SET_EDIT_INPUT_VALUE) {
+    return {
+      ...state,
+      editInputValue: action.payload
+    }
+  }
+
+  if (action.type === SET_IS_EDIT_INPUT_VALUE_MAX_LENGTH) {
+    return {
+      ...state,
+      isEditInputMaxLength: action.payload
+    }
+  }
+
+  if (action.type === SET_TO_DO_ITEMS) {
+    return {
+      ...state,
+      toDoItems: action.payload
+    }
+  }
+
+  if (action.type === SET_RADIO_VALUE) {
+    return {
+      ...state,
+      radioValue: action.payload
+    }
+  }
+
+  if (action.type === SET_IS_ALL_COMPLETED) {
+    return {
+      ...state,
+      isAllCompleted: action.payload
     }
   }
 

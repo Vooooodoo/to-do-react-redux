@@ -1,65 +1,14 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'; // функция для подключения реакт компонента к redux store
+import { connect } from 'react-redux';
 import { changeName, changeSecondName } from '../../store/actions'
 import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import MAX_LENGTH from '../../utils/constants';
 import { addDataToLocalStorage, getDataFromLocalStorage } from '../../utils/helpers';
-import { store } from '../../store/store';
-import { CHANGE_NAME, CHANGE_SECOND_NAME } from '../../store/constants/actionTypes'
 import Footer from '../Footer';
 import GlobalStyle from '../GlobalStyle';
 import Header from '../Header';
 import Main from '../Main';
-
-
-
-// создадим экшены для изменения данных из текущего состояния,
-// это обычный JS объект обладающий специальными свойствами,
-// type - строка с уникальным названием экшена
-// payload - новое значение "переменной состояния"
-const changeNameAction = {
-  type: CHANGE_NAME,
-  payload: 'Romeo',
-}
-
-const changeSecondNameAction = {
-  type: CHANGE_SECOND_NAME,
-  payload: 'Andrietti',
-}
-
-// объявим action creator функции, чтобы не создавать каждый раз новый payload,
-// а передавать его в качестве аргумента
-const changeNameActionCreator = newName => {
-  return {
-    type: CHANGE_NAME,
-    payload: newName,
-  }
-}
-
-const changeSecondNameActionCreator = newSecondName => {
-  return {
-    type: CHANGE_SECOND_NAME,
-    payload: newSecondName,
-  }
-}
-
-// запустим экшн с помощью специального метода объекта store - dispatch(),
-// в качестве аргумента передадим ему сам экшн, который хотим запустить,
-// затем store вызовет функцию reducer
-store.dispatch(changeNameActionCreator('Тензин'));
-store.dispatch(changeSecondNameActionCreator('Гьяцо'));
-
-// с помощью метода getState() мы можем получить весь объект с текущим состоянием данных
-console.log(store.getState());
-
-// с помощью функций селекторов можно получить не весь объект состояния,
-// а только какое нибудь определённое свойство
-const selectName = state => state.name;
-const currentName = selectName(store.getState());
-console.log(currentName);
-
-
 
 class App extends React.Component {
   constructor() {
@@ -84,7 +33,6 @@ class App extends React.Component {
     });
 
     console.log(this.props.store); // получили доступ к redux store
-    this.props.changeName('Harry Potter'); // получили доступ к action creators
   }
 
   createNewToDoItemsArr = (key, value, elementId) => {

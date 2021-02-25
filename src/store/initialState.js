@@ -1,7 +1,5 @@
 // объект с начальным состоянием данных
 const initialState = {
-  name: 'Roman',
-  secondName: 'Andrukhanenko',
   createInputValue: '',
   isCreateInputMaxLength: false,
   editInputValue: '',
