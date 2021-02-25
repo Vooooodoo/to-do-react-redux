@@ -38,9 +38,6 @@ function Main(props) {
         )}
       </Input>
       <ToDoList
-        inputValue={props.editInputValue}
-        isEditInputMaxLength={props.isEditInputMaxLength}
-        onEditInputChange={props.onEditInputChange}
         onCheckboxChange={props.onCheckboxChange}
         onDelBtnClick={props.onDelBtnClick}
         onToDoItemDblClick={props.onToDoItemDblClick}

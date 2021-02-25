@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import {
+  setEditInputValue,
+  setIsEditInputMaxLength,
+} from '../../store/actions';
+import MAX_LENGTH from '../../utils/constants';
 import Input from '../Input';
 import ToDoItem from '../ToDoItem';
 
@@ -27,8 +33,16 @@ function ToDoList(props) {
       return toDoItems.filter(item => item.isCompleted);
     }
   }
-
   const renderArr = createRenderArr();
+
+  const handleEditInputChange = (evt) => {
+    if (evt.target.value.length > MAX_LENGTH) {
+      props.setIsEditInputMaxLength(true);
+    } else {
+      props.setEditInputValue(evt.target.value);
+      props.setIsEditInputMaxLength(false);
+    }
+  }
 
   return (
     <section>
@@ -38,10 +52,10 @@ function ToDoList(props) {
             ? (<Input
                  key={item.id}
                  id={item.id}
-                 inputValue={props.inputValue}
-                 onChange={evt => props.onEditInputChange(evt, item.id)}
-                 onBlur={props.onBlur}
+                 inputValue={props.editInputValue}
                  isMaxLength={props.isEditInputMaxLength}
+                 onChange={handleEditInputChange}
+                 onBlur={props.onBlur}
                  isAutofocus
                />)
             : (<ToDoItem
@@ -61,9 +75,18 @@ function ToDoList(props) {
 
 const putStateToProps = (state) => {
   return {
+    editInputValue: state.editInputValue,
+    isEditInputMaxLength: state.isEditInputMaxLength,
     toDoItems: state.toDoItems,
     radioValue: state.radioValue,
   }
 }
 
-export default connect(putStateToProps)(ToDoList);
+const putActionCreatorsToProps = (dispatch) => {
+  return {
+    setEditInputValue: bindActionCreators(setEditInputValue, dispatch),
+    setIsEditInputMaxLength: bindActionCreators(setIsEditInputMaxLength, dispatch),
+  }
+}
+
+export default connect(putStateToProps, putActionCreatorsToProps)(ToDoList);

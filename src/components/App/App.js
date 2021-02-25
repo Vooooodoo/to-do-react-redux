@@ -47,15 +47,6 @@ class App extends React.Component {
     this.props.setIsAllCompleted(isAllCompleted);
   }
 
-  handleEditInputChange = (evt) => {
-    if (evt.target.value.length > MAX_LENGTH) {
-      this.props.setIsEditInputMaxLength(true);
-    } else {
-      this.props.setEditInputValue(evt.target.value);
-      this.props.setIsEditInputMaxLength(false);
-    }
-  }
-
   handleEnter = (evt) => {
     const trimmedInputValue = this.props.store.createInputValue.trim();
 
@@ -143,10 +134,6 @@ class App extends React.Component {
         <GlobalStyle />
         <Header />
         <Main
-          editInputValue={this.props.store.editInputValue}
-          isEditInputMaxLength={this.props.store.isEditInputMaxLength}
-          onCreateInputChange={this.handleCreateInputChange}
-          onEditInputChange={this.handleEditInputChange}
           onKeyDown={this.handleEnter}
           onCheckboxChange={this.handleCheckbox}
           onCheckAllChange={this.handleCheckAll}
