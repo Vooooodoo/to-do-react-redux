@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import Radio from '../Radio';
 
@@ -65,7 +66,7 @@ const Button = styled.button`
 `
 
 function Footer(props) {
-  const toDoItems = React.useContext(ToDoItemsContext).toDoItems;
+  const toDoItems = props.toDoItems;
   const notCompletedItems = toDoItems.filter(item => !item.isCompleted);
   const completedItems = toDoItems.filter(item => item.isCompleted);
 
@@ -105,4 +106,10 @@ function Footer(props) {
   );
 }
 
-export default Footer;
+const putStateToProps = (state) => {
+  return {
+    toDoItems: state.toDoItems,
+  }
+}
+
+export default connect(putStateToProps)(Footer);
