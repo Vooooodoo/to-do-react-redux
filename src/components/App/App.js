@@ -47,15 +47,6 @@ class App extends React.Component {
     this.props.setIsAllCompleted(isAllCompleted);
   }
 
-  handleCreateInputChange = (evt) => {
-    if (evt.target.value.length > MAX_LENGTH) {
-      this.props.setIsCreateInputMaxLength(true);
-    } else {
-      this.props.setCreateInputValue(evt.target.value);
-      this.props.setIsCreateInputMaxLength(false);
-    }
-  }
-
   handleEditInputChange = (evt) => {
     if (evt.target.value.length > MAX_LENGTH) {
       this.props.setIsEditInputMaxLength(true);
@@ -152,12 +143,8 @@ class App extends React.Component {
         <GlobalStyle />
         <Header />
         <Main
-          createInputValue={this.props.store.createInputValue}
-          isCreateInputMaxLength={this.props.store.isCreateInputMaxLength}
           editInputValue={this.props.store.editInputValue}
           isEditInputMaxLength={this.props.store.isEditInputMaxLength}
-          isAllCompleted={this.props.store.isAllCompleted}
-          toDoItems={this.props.store.toDoItems}
           onCreateInputChange={this.handleCreateInputChange}
           onEditInputChange={this.handleEditInputChange}
           onKeyDown={this.handleEnter}
