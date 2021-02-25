@@ -1,7 +1,15 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { changeName, changeSecondName } from '../../store/actions'
+import {
+  setCreateInputValue,
+  setIsCreateInputMaxLength,
+  setEditInputValue,
+  setIsEditInputMaxLength,
+  setToDoItems,
+  setRadioValue,
+  setIsAllCompleted,
+} from '../../store/actions'
 import ToDoItemsContext from '../../contexts/ToDoItemsContext';
 import MAX_LENGTH from '../../utils/constants';
 import { addDataToLocalStorage, getDataFromLocalStorage } from '../../utils/helpers';
@@ -11,32 +19,14 @@ import Header from '../Header';
 import Main from '../Main';
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      createInputValue: '',
-      isCreateInputMaxLength: false,
-      editInputValue: '',
-      isEditInputMaxLength: false,
-      toDoItems: [],
-      radioValue: 'All',
-      isAllCompleted: false,
-    };
-  }
-
   componentDidMount() {
     const initData = getDataFromLocalStorage();
 
-    this.setState({
-      toDoItems: initData ? JSON.parse(initData) : [],
-    });
-
-    console.log(this.props.store); // получили доступ к redux store
+    this.props.setToDoItems(initData ? JSON.parse(initData) : []);
   }
 
   createNewToDoItemsArr = (key, value, elementId) => {
-    const newToDoItems = this.state.toDoItems.map(item => {
+    const newToDoItems = this.props.store.toDoItems.map(item => {
       if (elementId === item.id) {
         item[key] = value;
       }
@@ -49,47 +39,35 @@ class App extends React.Component {
 
   saveData = (data) => {
     addDataToLocalStorage(data);
-    this.setState({
-      toDoItems: data,
-    });
+    this.props.setToDoItems(data);
   }
 
   setIsAllCompleted = (arr) => {
     const isAllCompleted = arr.every(item => item.isCompleted);
 
-    this.setState({
-      isAllCompleted: isAllCompleted,
-    });
+    this.props.setIsAllCompleted(isAllCompleted);
   }
 
   handleCreateInputChange = (evt) => {
     if (evt.target.value.length > MAX_LENGTH) {
-      this.setState({
-        isCreateInputMaxLength: true,
-      });
+      this.props.setIsCreateInputMaxLength(true);
     } else {
-      this.setState({
-        createInputValue: evt.target.value,
-        isCreateInputMaxLength: false,
-      });
+      this.props.setCreateInputValue(evt.target.value);
+      this.props.setIsCreateInputMaxLength(false);
     }
   }
 
   handleEditInputChange = (evt) => {
     if (evt.target.value.length > MAX_LENGTH) {
-      this.setState({
-        isEditInputMaxLength: true,
-      });
+      this.props.setIsEditInputMaxLength(true);
     } else {
-      this.setState({
-        editInputValue: evt.target.value,
-        isEditInputMaxLength: false,
-      });
+      this.props.setEditInputValue(evt.target.value);
+      this.props.setIsEditInputMaxLength(false);
     }
   }
 
   handleEnter = (evt) => {
-    const trimmedInputValue = this.state.createInputValue.trim();
+    const trimmedInputValue = this.props.store.createInputValue.trim();
 
     if (evt.key === 'Enter' && trimmedInputValue) {
       const id = Date.now();
@@ -99,14 +77,12 @@ class App extends React.Component {
         isCompleted: false,
         isEditable: false,
       }
-      const newToDoItems = [newToDoItem, ...this.state.toDoItems];
+      const newToDoItems = [newToDoItem, ...this.props.store.toDoItems];
 
       this.setIsAllCompleted(newToDoItems);
-      this.setState({
-        createInputValue: '',
-        toDoItems: newToDoItems,
-        isCreateInputMaxLength: false,
-      });
+      this.props.setCreateInputValue('');
+      this.props.setToDoItems(newToDoItems);
+      this.props.setIsCreateInputMaxLength(false);
       addDataToLocalStorage(newToDoItems);
     }
   }
@@ -119,8 +95,8 @@ class App extends React.Component {
   }
 
   handleCheckAll = () => {
-    const isAllCompleted = this.state.toDoItems.every(item => item.isCompleted);
-    const newToDoItems = this.state.toDoItems.map(item => {
+    const isAllCompleted = this.props.store.toDoItems.every(item => item.isCompleted);
+    const newToDoItems = this.props.store.toDoItems.map(item => {
       item.isCompleted = !isAllCompleted;
 
       return item;
@@ -131,19 +107,17 @@ class App extends React.Component {
   }
 
   deleteToDoItem = (evtTargetId) => {
-    const newToDoItems = this.state.toDoItems.filter(item => evtTargetId !== item.id);
+    const newToDoItems = this.props.store.toDoItems.filter(item => evtTargetId !== item.id);
 
     this.saveData(newToDoItems);
   }
 
   handleRadio = (evt) => {
-    this.setState({
-      radioValue: evt.target.value,
-    });
+    this.props.setRadioValue(evt.target.value);
   }
 
   handleClearCompletedBtn = () => {
-    const newToDoItems = this.state.toDoItems.filter(item => !item.isCompleted);
+    const newToDoItems = this.props.store.toDoItems.filter(item => !item.isCompleted);
 
     this.saveData(newToDoItems);
   }
@@ -152,15 +126,13 @@ class App extends React.Component {
     const newToDoItems = this.createNewToDoItemsArr('isEditable', true, evtTargetId);
     const editableText = newToDoItems.find(item => item.isEditable).text;
 
-    this.setState({
-      editInputValue: editableText,
-    });
+    this.props.setEditInputValue(editableText);
     this.saveData(newToDoItems);
   }
 
   handleInputBlur = (evt, evtTargetId) => {
     if (evt.target.value.trim()) {
-      const newToDoItems = this.state.toDoItems.map(item => {
+      const newToDoItems = this.props.store.toDoItems.map(item => {
         if (evtTargetId === item.id) {
           item.text = evt.target.value;
           item.isEditable = false;
@@ -177,16 +149,16 @@ class App extends React.Component {
 
   render() {
     return (
-      <ToDoItemsContext.Provider value={this.state}>
+      <ToDoItemsContext.Provider value={this.props.store}>
         <GlobalStyle />
         <Header />
         <Main
-          createInputValue={this.state.createInputValue}
-          isCreateInputMaxLength={this.state.isCreateInputMaxLength}
-          editInputValue={this.state.editInputValue}
-          isEditInputMaxLength={this.state.isEditInputMaxLength}
-          isAllCompleted={this.state.isAllCompleted}
-          toDoItems={this.state.toDoItems}
+          createInputValue={this.props.store.createInputValue}
+          isCreateInputMaxLength={this.props.store.isCreateInputMaxLength}
+          editInputValue={this.props.store.editInputValue}
+          isEditInputMaxLength={this.props.store.isEditInputMaxLength}
+          isAllCompleted={this.props.store.isAllCompleted}
+          toDoItems={this.props.store.toDoItems}
           onCreateInputChange={this.handleCreateInputChange}
           onEditInputChange={this.handleEditInputChange}
           onKeyDown={this.handleEnter}
@@ -196,7 +168,7 @@ class App extends React.Component {
           onToDoItemDblClick={this.handleEdetingDblClick}
           onBlur={this.handleInputBlur}
         />
-        {Boolean(this.state.toDoItems.length) && (
+        {Boolean(this.props.store.toDoItems.length) && (
           <Footer
             onRadioChange={this.handleRadio}
             onClearCompletedBtnClick={this.handleClearCompletedBtn}
@@ -215,13 +187,15 @@ const putStateToProps = (state) => {
 
 const putActionCreatorsToProps = (dispatch) => {
   return {
-    changeName: bindActionCreators(changeName, dispatch),
-    changeSecondName: bindActionCreators(changeSecondName, dispatch),
+    setCreateInputValue: bindActionCreators(setCreateInputValue, dispatch),
+    setIsCreateInputMaxLength: bindActionCreators(setIsCreateInputMaxLength, dispatch),
+    setEditInputValue: bindActionCreators(setEditInputValue, dispatch),
+    setIsEditInputMaxLength: bindActionCreators(setIsEditInputMaxLength, dispatch),
+    setToDoItems: bindActionCreators(setToDoItems, dispatch),
+    setRadioValue: bindActionCreators(setRadioValue, dispatch),
+    setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
+
   }
 }
 
-// подключим App к redux store, и дадим компоненту доступ к актуальным данным,
-// которые мы вернём в теле функции putStateToProps(state),
-// также поместим в пропсы actions creators с помощью функции putActionCreatorsToProps(dispatch)
-// также у компонента появится доступ к методу dispatch()
 export default connect(putStateToProps, putActionCreatorsToProps)(App);
