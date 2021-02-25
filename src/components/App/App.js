@@ -9,8 +9,7 @@ import {
   setToDoItems,
   setRadioValue,
   setIsAllCompleted,
-} from '../../store/actions'
-import ToDoItemsContext from '../../contexts/ToDoItemsContext';
+} from '../../store/actions';
 import MAX_LENGTH from '../../utils/constants';
 import { addDataToLocalStorage, getDataFromLocalStorage } from '../../utils/helpers';
 import Footer from '../Footer';
@@ -149,7 +148,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <ToDoItemsContext.Provider value={this.props.store}>
+      <>
         <GlobalStyle />
         <Header />
         <Main
@@ -174,7 +173,7 @@ class App extends React.Component {
             onClearCompletedBtnClick={this.handleClearCompletedBtn}
           />
         )}
-      </ToDoItemsContext.Provider>
+      </>
     );
   }
 }
