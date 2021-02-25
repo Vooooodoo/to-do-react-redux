@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ToDoItemsContext from '../../contexts/ToDoItemsContext';
+import { connect } from 'react-redux';
 import Input from '../Input';
 import ToDoItem from '../ToDoItem';
 
@@ -11,8 +11,8 @@ const StyledToDoList = styled.ul`
 `;
 
 function ToDoList(props) {
-  const toDoItems = React.useContext(ToDoItemsContext).toDoItems;
-  const radioValue = React.useContext(ToDoItemsContext).radioValue;
+  const toDoItems = props.toDoItems;
+  const radioValue = props.radioValue;
 
   const createRenderArr = () => {
     if (radioValue === 'All') {
@@ -59,4 +59,11 @@ function ToDoList(props) {
   );
 }
 
-export default ToDoList;
+const putStateToProps = (state) => {
+  return {
+    toDoItems: state.toDoItems,
+    radioValue: state.radioValue,
+  }
+}
+
+export default connect(putStateToProps)(ToDoList);
