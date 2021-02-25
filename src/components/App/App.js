@@ -10,7 +10,6 @@ import {
   setRadioValue,
   setIsAllCompleted,
 } from '../../store/actions';
-import MAX_LENGTH from '../../utils/constants';
 import { addDataToLocalStorage, getDataFromLocalStorage } from '../../utils/helpers';
 import Footer from '../Footer';
 import GlobalStyle from '../GlobalStyle';
@@ -87,12 +86,6 @@ class App extends React.Component {
     this.saveData(newToDoItems);
   }
 
-  deleteToDoItem = (evtTargetId) => {
-    const newToDoItems = this.props.store.toDoItems.filter(item => evtTargetId !== item.id);
-
-    this.saveData(newToDoItems);
-  }
-
   handleRadio = (evt) => {
     this.props.setRadioValue(evt.target.value);
   }
@@ -128,6 +121,12 @@ class App extends React.Component {
     }
   }
 
+  deleteToDoItem = (evtTargetId) => {
+    const newToDoItems = this.props.store.toDoItems.filter(item => evtTargetId !== item.id);
+
+    this.saveData(newToDoItems);
+  }
+
   render() {
     return (
       <>
@@ -137,7 +136,6 @@ class App extends React.Component {
           onKeyDown={this.handleEnter}
           onCheckboxChange={this.handleCheckbox}
           onCheckAllChange={this.handleCheckAll}
-          onDelBtnClick={this.deleteToDoItem}
           onToDoItemDblClick={this.handleEdetingDblClick}
           onBlur={this.handleInputBlur}
         />

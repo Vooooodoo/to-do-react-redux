@@ -39,7 +39,6 @@ function Main(props) {
       </Input>
       <ToDoList
         onCheckboxChange={props.onCheckboxChange}
-        onDelBtnClick={props.onDelBtnClick}
         onToDoItemDblClick={props.onToDoItemDblClick}
         onBlur={props.onBlur}
       />

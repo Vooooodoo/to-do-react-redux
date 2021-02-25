@@ -38,7 +38,6 @@ function ToDoItem(props) {
       />
       <DeleteButton
         toDoItemId={props.id}
-        onDelBtnClick={props.onDelBtnClick}
       />
     </StyledToDoItem>
   );

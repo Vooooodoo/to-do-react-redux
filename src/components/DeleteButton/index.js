@@ -1,5 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {
+  setToDoItems,
+} from '../../store/actions';
+import { addDataToLocalStorage } from '../../utils/helpers';
 
 const Button = styled.button`
   position: absolute;
@@ -18,16 +24,35 @@ const Button = styled.button`
 `;
 
 function DeleteButton(props) {
+  const deleteToDoItem = (evtTargetId) => {
+    const newToDoItems = props.toDoItems.filter(item => evtTargetId !== item.id);
+
+    addDataToLocalStorage(newToDoItems);
+    props.setToDoItems(newToDoItems);
+  }
+
   return (
     <Button
       className="del-btn transition"
       type="button"
       aria-label="Удалить дело."
-      onClick={() => props.onDelBtnClick(props.toDoItemId)}
+      onClick={() => deleteToDoItem(props.toDoItemId)}
     >
       x
     </Button>
   );
 }
 
-export default DeleteButton;
+const putStateToProps = (state) => {
+  return {
+    toDoItems: state.toDoItems,
+  }
+}
+
+const putActionCreatorsToProps = (dispatch) => {
+  return {
+    setToDoItems: bindActionCreators(setToDoItems, dispatch),
+  }
+}
+
+export default connect(putStateToProps, putActionCreatorsToProps)(DeleteButton);
