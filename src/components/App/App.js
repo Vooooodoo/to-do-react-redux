@@ -75,20 +75,6 @@ class App extends React.Component {
     this.saveData(newToDoItems);
   }
 
-  handleEdetingDblClick = (evtTargetId) => {
-    const newToDoItems = this.createNewToDoItemsArr('isEditable', true, evtTargetId);
-    const editableText = newToDoItems.find(item => item.isEditable).text;
-
-    this.props.setEditInputValue(editableText);
-    this.saveData(newToDoItems);
-  }
-
-  deleteToDoItem = (evtTargetId) => {
-    const newToDoItems = this.props.store.toDoItems.filter(item => evtTargetId !== item.id);
-
-    this.saveData(newToDoItems);
-  }
-
   render() {
     return (
       <>
@@ -97,7 +83,6 @@ class App extends React.Component {
         <Main
           onCheckboxChange={this.handleCheckbox}
           onCheckAllChange={this.handleCheckAll}
-          onToDoItemDblClick={this.handleEdetingDblClick}
         />
         {Boolean(this.props.store.toDoItems.length) && (
           <Footer

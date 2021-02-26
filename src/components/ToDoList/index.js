@@ -64,7 +64,6 @@ function ToDoList(props) {
                  text={item.text}
                  isCompleted={item.isCompleted}
                  onCheckboxChange={props.onCheckboxChange}
-                 onToDoItemDblClick={props.onToDoItemDblClick}
                />)
         ))}
       </StyledToDoList>

@@ -63,7 +63,6 @@ function Main(props) {
       </Input>
       <ToDoList
         onCheckboxChange={props.onCheckboxChange}
-        onToDoItemDblClick={props.onToDoItemDblClick}
       />
     </main>
   );

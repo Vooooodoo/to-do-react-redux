@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  setEditInputValue,
-  setIsEditInputMaxLength,
   setToDoItems,
 } from '../../store/actions';
 import { addDataToLocalStorage } from '../../utils/helpers';
