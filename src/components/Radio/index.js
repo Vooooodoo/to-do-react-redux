@@ -1,5 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {
+  setRadioValue,
+} from '../../store/actions';
 
 const StyledRadio = styled.input`
   margin: 0;
@@ -21,6 +26,10 @@ const StyledLabel = styled.label`
 `;
 
 function Radio(props) {
+  const handleRadio = (evt) => {
+    props.setRadioValue(evt.target.value);
+  }
+
   return (
     <>
       <StyledRadio
@@ -29,11 +38,23 @@ function Radio(props) {
         type="radio"
         name="to-do-items"
         value={props.text}
-        onChange={props.onRadioChange}
+        onChange={handleRadio}
       />
       <StyledLabel htmlFor={props.id}>{props.text}</StyledLabel>
     </>
   );
 }
 
-export default Radio;
+const putStateToProps = (state) => {
+  return {
+    radioValue: state.radioValue,
+  }
+}
+
+const putActionCreatorsToProps = (dispatch) => {
+  return {
+    setRadioValue: bindActionCreators(setRadioValue, dispatch),
+  }
+}
+
+export default connect(putStateToProps, putActionCreatorsToProps)(Radio);

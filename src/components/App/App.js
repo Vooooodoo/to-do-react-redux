@@ -65,10 +65,6 @@ class App extends React.Component {
     this.saveData(newToDoItems);
   }
 
-  handleRadio = (evt) => {
-    this.props.setRadioValue(evt.target.value);
-  }
-
   handleClearCompletedBtn = () => {
     const newToDoItems = this.props.store.toDoItems.filter(item => !item.isCompleted);
 
@@ -86,7 +82,6 @@ class App extends React.Component {
         />
         {Boolean(this.props.store.toDoItems.length) && (
           <Footer
-            onRadioChange={this.handleRadio}
             onClearCompletedBtnClick={this.handleClearCompletedBtn}
           />
         )}

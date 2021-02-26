@@ -77,18 +77,15 @@ function Footer(props) {
         <Radio
           id="radio-all"
           text="All"
-          onRadioChange={props.onRadioChange}
           isChecked
         />
         <Radio
           id="radio-active"
           text="Active"
-          onRadioChange={props.onRadioChange}
         />
         <Radio
           id="radio-completed"
           text="Completed"
-          onRadioChange={props.onRadioChange}
         />
       </Container>
 

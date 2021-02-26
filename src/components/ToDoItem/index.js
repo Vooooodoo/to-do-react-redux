@@ -1,13 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import {
-  setEditInputValue,
-  setToDoItems,
-} from '../../store/actions';
-import { addDataToLocalStorage } from '../../utils/helpers';
-
 import Checkbox from '../Checkbox';
 import DeleteButton from '../DeleteButton';
 
@@ -36,23 +28,8 @@ const ToDoText = styled.p`
 `;
 
 function ToDoItem(props) {
-  const handleEdetingDblClick = (evtTargetId) => {
-    const newToDoItems = props.toDoItems.map(item => {
-      if (evtTargetId === item.id) {
-        item.isEditable = true;
-      }
-
-      return item;
-    });
-    const editableText = newToDoItems.find(item => item.isEditable).text;
-
-    props.setEditInputValue(editableText);
-    props.setToDoItems(newToDoItems);
-    addDataToLocalStorage(newToDoItems);
-  }
-
   return (
-    <StyledToDoItem onDoubleClick={() => handleEdetingDblClick(props.id)}>
+    <StyledToDoItem onDoubleClick={() => props.onEdetingDblClick(props.id)}>
       <ToDoText isCompleted={props.isCompleted}>{props.text}</ToDoText>
       <Checkbox
         toDoItemId={props.id}
@@ -66,17 +43,4 @@ function ToDoItem(props) {
   );
 }
 
-const putStateToProps = (state) => {
-  return {
-    toDoItems: state.toDoItems,
-  }
-}
-
-const putActionCreatorsToProps = (dispatch) => {
-  return {
-    setEditInputValue: bindActionCreators(setEditInputValue, dispatch),
-    setToDoItems: bindActionCreators(setToDoItems, dispatch),
-  }
-}
-
-export default connect(putStateToProps, putActionCreatorsToProps)(ToDoItem);
+export default ToDoItem;

@@ -7,6 +7,7 @@ import {
   setIsEditInputMaxLength,
   setToDoItems,
 } from '../../store/actions';
+import { addDataToLocalStorage } from '../../utils/helpers';
 import MAX_LENGTH from '../../utils/constants';
 import Input from '../Input';
 import ToDoItem from '../ToDoItem';
@@ -45,6 +46,21 @@ function ToDoList(props) {
     }
   }
 
+  const handleEdetingDblClick = (evtTargetId) => {
+    const newToDoItems = props.toDoItems.map(item => {
+      if (evtTargetId === item.id) {
+        item.isEditable = true;
+      }
+
+      return item;
+    });
+    const editableText = newToDoItems.find(item => item.isEditable).text;
+
+    props.setEditInputValue(editableText);
+    props.setToDoItems(newToDoItems);
+    addDataToLocalStorage(newToDoItems);
+  }
+
   return (
     <section>
       <StyledToDoList>
@@ -64,6 +80,7 @@ function ToDoList(props) {
                  text={item.text}
                  isCompleted={item.isCompleted}
                  onCheckboxChange={props.onCheckboxChange}
+                 onEdetingDblClick={handleEdetingDblClick}
                />)
         ))}
       </StyledToDoList>
