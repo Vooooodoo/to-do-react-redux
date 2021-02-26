@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import {
+  setToDoItems,
+} from '../../store/actions';
+import { addDataToLocalStorage } from '../../utils/helpers';
 import Radio from '../Radio';
 
 const StyledFooter = styled.footer`
@@ -69,6 +74,13 @@ function Footer(props) {
   const notCompletedItems = toDoItems.filter(item => !item.isCompleted);
   const completedItems = toDoItems.filter(item => item.isCompleted);
 
+  const handleClearCompletedBtn = () => {
+    const newToDoItems = props.toDoItems.filter(item => !item.isCompleted);
+
+    props.setToDoItems(newToDoItems);
+    addDataToLocalStorage(newToDoItems);
+  }
+
   return (
     <StyledFooter>
       <Text>{`${notCompletedItems.length} items left`}</Text>
@@ -93,7 +105,7 @@ function Footer(props) {
         <Button
           className="transition"
           type="button"
-          onClick={props.onClearCompletedBtnClick}
+          onClick={handleClearCompletedBtn}
         >
           {`Clear completed [${completedItems.length}]`}
         </Button>
@@ -108,4 +120,10 @@ const putStateToProps = (state) => {
   }
 }
 
-export default connect(putStateToProps)(Footer);
+const putActionCreatorsToProps = (dispatch) => {
+  return {
+    setToDoItems: bindActionCreators(setToDoItems, dispatch),
+  }
+}
+
+export default connect(putStateToProps, putActionCreatorsToProps)(Footer);

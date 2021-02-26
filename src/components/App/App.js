@@ -65,12 +65,6 @@ class App extends React.Component {
     this.saveData(newToDoItems);
   }
 
-  handleClearCompletedBtn = () => {
-    const newToDoItems = this.props.store.toDoItems.filter(item => !item.isCompleted);
-
-    this.saveData(newToDoItems);
-  }
-
   render() {
     return (
       <>
@@ -81,9 +75,7 @@ class App extends React.Component {
           onCheckAllChange={this.handleCheckAll}
         />
         {Boolean(this.props.store.toDoItems.length) && (
-          <Footer
-            onClearCompletedBtnClick={this.handleClearCompletedBtn}
-          />
+          <Footer />
         )}
       </>
     );
