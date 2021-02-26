@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   setToDoItems,
+  setIsAllCompleted,
 } from '../../store/actions';
 import { getDataFromLocalStorage } from '../../utils/helpers';
 import Footer from '../Footer';
@@ -13,8 +14,11 @@ import Main from '../Main';
 class App extends React.Component {
   componentDidMount() {
     const initData = getDataFromLocalStorage();
+    const parsedInitData = JSON.parse(initData);
+    const isAllCompleted = parsedInitData.every(item => item.isCompleted);
 
-    this.props.setToDoItems(initData ? JSON.parse(initData) : []);
+    this.props.setToDoItems(initData ? parsedInitData : []);
+    this.props.setIsAllCompleted(isAllCompleted);
   }
 
   render() {
@@ -40,6 +44,7 @@ const putStateToProps = (state) => {
 const putActionCreatorsToProps = (dispatch) => {
   return {
     setToDoItems: bindActionCreators(setToDoItems, dispatch),
+    setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
   }
 }
 
