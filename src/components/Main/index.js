@@ -14,6 +14,11 @@ import ToDoList from '../ToDoList';
 import Checkbox from '../Checkbox';
 
 function Main(props) {
+  const saveData = (dataArr) => {
+    props.setToDoItems(dataArr);
+    addDataToLocalStorage(dataArr);
+  }
+
   const handleCreateInputChange = (evt) => {
     if (evt.target.value.length > MAX_LENGTH) {
       props.setIsCreateInputMaxLength(true);
@@ -40,8 +45,7 @@ function Main(props) {
       props.setIsAllCompleted(isAllCompleted);
       props.setCreateInputValue('');
       props.setIsCreateInputMaxLength(false);
-      props.setToDoItems(newToDoItems);
-      addDataToLocalStorage(newToDoItems);
+      saveData(newToDoItems);
     }
   }
 
@@ -55,8 +59,7 @@ function Main(props) {
     const isNewItemsCompleted = newToDoItems.every(item => item.isCompleted);
 
     props.setIsAllCompleted(isNewItemsCompleted);
-    props.setToDoItems(newToDoItems);
-    addDataToLocalStorage(newToDoItems);
+    saveData(newToDoItems);
   }
 
   return (

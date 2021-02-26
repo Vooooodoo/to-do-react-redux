@@ -75,10 +75,8 @@ function Footer(props) {
   const completedItems = toDoItems.filter(item => item.isCompleted);
 
   const handleClearCompletedBtn = () => {
-    const newToDoItems = props.toDoItems.filter(item => !item.isCompleted);
-
-    props.setToDoItems(newToDoItems);
-    addDataToLocalStorage(newToDoItems);
+    props.setToDoItems(notCompletedItems);
+    addDataToLocalStorage(notCompletedItems);
   }
 
   return (
