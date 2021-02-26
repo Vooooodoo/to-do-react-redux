@@ -45,6 +45,20 @@ function Main(props) {
     }
   }
 
+  const handleCheckAll = () => {
+    const isAllCompleted = props.toDoItems.every(item => item.isCompleted);
+    const newToDoItems = props.toDoItems.map(item => {
+      item.isCompleted = !isAllCompleted;
+
+      return item;
+    });
+    const isNewItemsCompleted = newToDoItems.every(item => item.isCompleted);
+
+    props.setIsAllCompleted(isNewItemsCompleted);
+    props.setToDoItems(newToDoItems);
+    addDataToLocalStorage(newToDoItems);
+  }
+
   return (
     <main>
       <Input
@@ -56,7 +70,7 @@ function Main(props) {
       >
         {Boolean(props.toDoItems.length) && (
           <Checkbox
-            onCheckboxChange={props.onCheckAllChange}
+            onCheckboxChange={handleCheckAll}
             isChecked={props.isAllCompleted}
           />
         )}
