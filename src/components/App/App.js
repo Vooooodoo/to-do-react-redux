@@ -23,18 +23,6 @@ class App extends React.Component {
     this.props.setToDoItems(initData ? JSON.parse(initData) : []);
   }
 
-  createNewToDoItemsArr = (key, value, elementId) => {
-    const newToDoItems = this.props.store.toDoItems.map(item => {
-      if (elementId === item.id) {
-        item[key] = value;
-      }
-
-      return item;
-    });
-
-    return newToDoItems;
-  }
-
   saveData = (data) => {
     addDataToLocalStorage(data);
     this.props.setToDoItems(data);
@@ -44,13 +32,6 @@ class App extends React.Component {
     const isAllCompleted = arr.every(item => item.isCompleted);
 
     this.props.setIsAllCompleted(isAllCompleted);
-  }
-
-  handleCheckbox = (evt, evtTargetId) => {
-    const newToDoItems = this.createNewToDoItemsArr('isCompleted', evt.target.checked, evtTargetId);
-
-    this.changeIsAllCompleted(newToDoItems);
-    this.saveData(newToDoItems);
   }
 
   handleCheckAll = () => {
@@ -71,7 +52,6 @@ class App extends React.Component {
         <GlobalStyle />
         <Header />
         <Main
-          onCheckboxChange={this.handleCheckbox}
           onCheckAllChange={this.handleCheckAll}
         />
         {Boolean(this.props.store.toDoItems.length) && (

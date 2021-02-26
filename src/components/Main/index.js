@@ -61,9 +61,7 @@ function Main(props) {
           />
         )}
       </Input>
-      <ToDoList
-        onCheckboxChange={props.onCheckboxChange}
-      />
+      <ToDoList />
     </main>
   );
 }

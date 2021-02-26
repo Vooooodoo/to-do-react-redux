@@ -79,7 +79,6 @@ function ToDoList(props) {
                  id={item.id}
                  text={item.text}
                  isCompleted={item.isCompleted}
-                 onCheckboxChange={props.onCheckboxChange}
                  onEdetingDblClick={handleEdetingDblClick}
                />)
         ))}
