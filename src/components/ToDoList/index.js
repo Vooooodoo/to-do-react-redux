@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
   setEditInputValue,
   setIsEditInputMaxLength,
+  setToDoItems,
 } from '../../store/actions';
 import MAX_LENGTH from '../../utils/constants';
 import Input from '../Input';
@@ -55,7 +56,6 @@ function ToDoList(props) {
                  inputValue={props.editInputValue}
                  isMaxLength={props.isEditInputMaxLength}
                  onChange={handleEditInputChange}
-                 onBlur={props.onBlur}
                  isAutofocus
                />)
             : (<ToDoItem
@@ -85,6 +85,7 @@ const putActionCreatorsToProps = (dispatch) => {
   return {
     setEditInputValue: bindActionCreators(setEditInputValue, dispatch),
     setIsEditInputMaxLength: bindActionCreators(setIsEditInputMaxLength, dispatch),
+    setToDoItems: bindActionCreators(setToDoItems, dispatch),
   }
 }
 

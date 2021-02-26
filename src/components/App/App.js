@@ -83,23 +83,6 @@ class App extends React.Component {
     this.saveData(newToDoItems);
   }
 
-  handleInputBlur = (evt, evtTargetId) => {
-    if (evt.target.value.trim()) {
-      const newToDoItems = this.props.store.toDoItems.map(item => {
-        if (evtTargetId === item.id) {
-          item.text = evt.target.value;
-          item.isEditable = false;
-        }
-
-        return item;
-      });
-
-      this.saveData(newToDoItems);
-    } else {
-      this.deleteToDoItem(evtTargetId);
-    }
-  }
-
   deleteToDoItem = (evtTargetId) => {
     const newToDoItems = this.props.store.toDoItems.filter(item => evtTargetId !== item.id);
 
@@ -115,7 +98,6 @@ class App extends React.Component {
           onCheckboxChange={this.handleCheckbox}
           onCheckAllChange={this.handleCheckAll}
           onToDoItemDblClick={this.handleEdetingDblClick}
-          onBlur={this.handleInputBlur}
         />
         {Boolean(this.props.store.toDoItems.length) && (
           <Footer

@@ -53,7 +53,6 @@ function Main(props) {
         placeholder="What needs to be done?"
         onChange={handleCreateInputChange}
         onKeyDown={handleEnter}
-        onBlur={props.onBlur}
       >
         {Boolean(props.toDoItems.length) && (
           <Checkbox
@@ -65,7 +64,6 @@ function Main(props) {
       <ToDoList
         onCheckboxChange={props.onCheckboxChange}
         onToDoItemDblClick={props.onToDoItemDblClick}
-        onBlur={props.onBlur}
       />
     </main>
   );

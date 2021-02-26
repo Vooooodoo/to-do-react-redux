@@ -1,5 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {
+  setEditInputValue,
+  setIsEditInputMaxLength,
+  setToDoItems,
+} from '../../store/actions';
+import { addDataToLocalStorage } from '../../utils/helpers';
 
 const Section = styled.section`
   position: relative;
@@ -28,6 +36,27 @@ const ValidationMessage = styled.p`
 `;
 
 function Input(props) {
+  const handleInputBlur = (evt, evtTargetId) => {
+    if (evt.target.value.trim()) {
+      const newToDoItems = props.toDoItems.map(item => {
+        if (evtTargetId === item.id) {
+          item.text = evt.target.value;
+          item.isEditable = false;
+        }
+
+        return item;
+      });
+
+      addDataToLocalStorage(newToDoItems);
+      props.setToDoItems(newToDoItems);
+    } else {
+      const newToDoItems = props.toDoItems.filter(item => evtTargetId !== item.id);
+
+      addDataToLocalStorage(newToDoItems);
+      props.setToDoItems(newToDoItems);
+    }
+  }
+
   return (
     <Section>
       {props.children}
@@ -39,7 +68,7 @@ function Input(props) {
         isMaxLength={props.isMaxLength}
         onChange={props.onChange}
         onKeyDown={props.onKeyDown}
-        onBlur={evt => props.onBlur(evt, props.id)}
+        onBlur={evt => handleInputBlur(evt, props.id)}
       />
       {props.isMaxLength && (
         <ValidationMessage>{`${props.inputValue.length} characters limit`}</ValidationMessage>
@@ -48,4 +77,16 @@ function Input(props) {
   );
 }
 
-export default Input;
+const putStateToProps = (state) => {
+  return {
+    toDoItems: state.toDoItems,
+  }
+}
+
+const putActionCreatorsToProps = (dispatch) => {
+  return {
+    setToDoItems: bindActionCreators(setToDoItems, dispatch),
+  }
+}
+
+export default connect(putStateToProps, putActionCreatorsToProps)(Input);
