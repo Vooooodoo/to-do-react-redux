@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  setToDoItems,
-} from '../../store/actions';
+import { setToDoItems } from '../../store/actions';
 import { addDataToLocalStorage } from '../../utils/helpers';
 import Radio from '../Radio';
 

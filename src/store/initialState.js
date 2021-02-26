@@ -1,4 +1,3 @@
-// объект с начальным состоянием данных
 const initialState = {
   createInputValue: '',
   isCreateInputMaxLength: false,

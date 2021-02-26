@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {
-  setRadioValue,
-} from '../../store/actions';
+import { setRadioValue } from '../../store/actions';
 
 const StyledRadio = styled.input`
   margin: 0;
