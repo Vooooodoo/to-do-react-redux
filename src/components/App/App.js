@@ -35,13 +35,13 @@ class App extends React.Component {
   }
 }
 
-const putStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   toDoItems: state.toDoItems,
 });
 
-const putActionCreatorsToProps = (dispatch) => ({
+const mapActionCreatorsToProps = (dispatch) => ({
   setToDoItems: bindActionCreators(setToDoItems, dispatch),
   setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
 });
 
-export default connect(putStateToProps, putActionCreatorsToProps)(App);
+export default connect(mapStateToProps, mapActionCreatorsToProps)(App);

@@ -110,12 +110,12 @@ function Footer(props) {
   );
 }
 
-const putStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   toDoItems: state.toDoItems,
 });
 
-const putActionCreatorsToProps = (dispatch) => ({
+const mapActionCreatorsToProps = (dispatch) => ({
   setToDoItems: bindActionCreators(setToDoItems, dispatch),
 });
 
-export default connect(putStateToProps, putActionCreatorsToProps)(Footer);
+export default connect(mapStateToProps, mapActionCreatorsToProps)(Footer);

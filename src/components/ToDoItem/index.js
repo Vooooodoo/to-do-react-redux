@@ -65,13 +65,13 @@ function ToDoItem(props) {
   );
 }
 
-const putStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   toDoItems: state.toDoItems,
 });
 
-const putActionCreatorsToProps = (dispatch) => ({
+const mapActionCreatorsToProps = (dispatch) => ({
   setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
   setToDoItems: bindActionCreators(setToDoItems, dispatch),
 });
 
-export default connect(putStateToProps, putActionCreatorsToProps)(ToDoItem);
+export default connect(mapStateToProps, mapActionCreatorsToProps)(ToDoItem);
