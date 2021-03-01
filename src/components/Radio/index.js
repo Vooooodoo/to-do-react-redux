@@ -43,16 +43,10 @@ function Radio(props) {
   );
 }
 
-const putStateToProps = (state) => {
-  return {
-    radioValue: state.radioValue,
-  }
-}
-
 const putActionCreatorsToProps = (dispatch) => {
   return {
     setRadioValue: bindActionCreators(setRadioValue, dispatch),
   }
 }
 
-export default connect(putStateToProps, putActionCreatorsToProps)(Radio);
+export default connect(null, putActionCreatorsToProps)(Radio);

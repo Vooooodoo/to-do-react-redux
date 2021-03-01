@@ -36,12 +36,11 @@ const setIsEditInputMaxLength = (newValue) => {
   }
 }
 
-const setToDoItems = (newValue) => {
-  return {
-    type: SET_TO_DO_ITEMS,
-    payload: newValue,
-  }
-}
+const setToDoItems = (newValue) => ({
+  type: SET_TO_DO_ITEMS,
+  payload: newValue,
+});
+
 
 const setRadioValue = (newValue) => {
   return {
