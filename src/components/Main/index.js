@@ -6,6 +6,7 @@ import {
   setIsCreateInputMaxLength,
   setToDoItems,
   setIsAllCompleted,
+  setHandleEnterStates,
 } from '../../store/actions';
 import { addDataToLocalStorage } from '../../utils/helpers';
 import MAX_LENGTH from '../../utils/constants';
@@ -42,9 +43,11 @@ function Main(props) {
       const newToDoItems = [newToDoItem, ...props.toDoItems];
       const isAllCompleted = newToDoItems.every(item => item.isCompleted);
 
-      props.setIsAllCompleted(isAllCompleted);
-      props.setCreateInputValue('');
-      props.setIsCreateInputMaxLength(false);
+      props.setHandleEnterStates({
+        isAllCompleted,
+        createInputValue: '',
+        isCreateInputMaxLength: false,
+      });
       saveData(newToDoItems);
     }
   }
@@ -95,6 +98,7 @@ const mapActionCreatorsToProps = (dispatch) => ({
   setIsCreateInputMaxLength: bindActionCreators(setIsCreateInputMaxLength, dispatch),
   setToDoItems: bindActionCreators(setToDoItems, dispatch),
   setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
+  setHandleEnterStates: bindActionCreators(setHandleEnterStates, dispatch),
 });
 
 export default connect(mapStateToProps, mapActionCreatorsToProps)(Main);

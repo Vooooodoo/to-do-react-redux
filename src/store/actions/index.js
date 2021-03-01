@@ -36,6 +36,11 @@ const setIsAllCompleted = (isAllCompleted) => ({
   payload: isAllCompleted,
 });
 
+const setHandleEnterStates = (handleEnterStates) => ({
+  type: actionTypes.SET_HANDLE_ENTER_STATES,
+  payload: handleEnterStates,
+});
+
 export {
   setCreateInputValue,
   setIsCreateInputMaxLength,
@@ -44,4 +49,5 @@ export {
   setToDoItems,
   setRadioValue,
   setIsAllCompleted,
+  setHandleEnterStates,
 };

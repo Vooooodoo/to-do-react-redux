@@ -53,16 +53,13 @@ function reducer(state = initialState, action) {
         ...state,
         isAllCompleted: action.payload,
       }
+
+    case actionTypes.SET_HANDLE_ENTER_STATES:
+      return {
+        ...state,
+        ...action.payload,
+      }
   }
-
-
-
-  // if (action.type === SET_TO_DO_ITEMS) {
-  //   return {
-  //     ...state,
-  //     ...action.payload
-  //   }
-  // } //!
 
   return state;
 }
