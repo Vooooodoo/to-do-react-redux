@@ -1,58 +1,50 @@
-import {
-  SET_CREATE_INPUT_VALUE,
-  SET_IS_CREATE_INPUT_VALUE_MAX_LENGTH,
-  SET_EDIT_INPUT_VALUE,
-  SET_IS_EDIT_INPUT_VALUE_MAX_LENGTH,
-  SET_TO_DO_ITEMS,
-  SET_RADIO_VALUE,
-  SET_IS_ALL_COMPLETED,
-} from '../constants/actionTypes'
+import * as actionTypes from '../constants/actionTypes'
 
-const setCreateInputValue = (newValue) => {
+const setCreateInputValue = (inputValue) => {
   return {
-    type: SET_CREATE_INPUT_VALUE,
-    payload: newValue,
+    type: actionTypes.SET_CREATE_INPUT_VALUE,
+    payload: inputValue,
   }
 }
 
-const setIsCreateInputMaxLength = (newValue) => {
+const setIsCreateInputMaxLength = (isMaxLength) => {
   return {
-    type: SET_IS_CREATE_INPUT_VALUE_MAX_LENGTH,
-    payload: newValue,
+    type: actionTypes.SET_IS_CREATE_INPUT_VALUE_MAX_LENGTH,
+    payload: isMaxLength,
   }
 }
 
-const setEditInputValue = (newValue) => {
+const setEditInputValue = (inputValue) => {
   return {
-    type: SET_EDIT_INPUT_VALUE,
-    payload: newValue,
+    type: actionTypes.SET_EDIT_INPUT_VALUE,
+    payload: inputValue,
   }
 }
 
-const setIsEditInputMaxLength = (newValue) => {
+const setIsEditInputMaxLength = (isMaxLength) => {
   return {
-    type: SET_IS_EDIT_INPUT_VALUE_MAX_LENGTH,
-    payload: newValue,
+    type: actionTypes.SET_IS_EDIT_INPUT_VALUE_MAX_LENGTH,
+    payload: isMaxLength,
   }
 }
 
-const setToDoItems = (newValue) => ({
-  type: SET_TO_DO_ITEMS,
-  payload: newValue,
+const setToDoItems = (toDoItems) => ({
+  type: actionTypes.SET_TO_DO_ITEMS,
+  payload: toDoItems,
 });
 
 
-const setRadioValue = (newValue) => {
+const setRadioValue = (radioValue) => {
   return {
-    type: SET_RADIO_VALUE,
-    payload: newValue,
+    type: actionTypes.SET_RADIO_VALUE,
+    payload: radioValue,
   }
 }
 
-const setIsAllCompleted = (newValue) => {
+const setIsAllCompleted = (isAllCompleted) => {
   return {
-    type: SET_IS_ALL_COMPLETED,
-    payload: newValue,
+    type: actionTypes.SET_IS_ALL_COMPLETED,
+    payload: isAllCompleted,
   }
 }
 
