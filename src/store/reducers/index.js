@@ -1,5 +1,14 @@
 import * as actionTypes from '../constants/actionTypes';
-import initialState from '../initialState';
+
+const initialState = {
+  createInputValue: '',
+  isCreateInputMaxLength: false,
+  editInputValue: '',
+  isEditInputMaxLength: false,
+  toDoItems: [],
+  radioValue: 'All',
+  isAllCompleted: false,
+}
 
 function reducer(state = initialState, action) {
   switch (action.type) {
