@@ -65,17 +65,13 @@ function ToDoItem(props) {
   );
 }
 
-const putStateToProps = (state) => {
-  return {
-    toDoItems: state.toDoItems,
-  }
-}
+const putStateToProps = (state) => ({
+  toDoItems: state.toDoItems,
+});
 
-const putActionCreatorsToProps = (dispatch) => {
-  return {
-    setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
-    setToDoItems: bindActionCreators(setToDoItems, dispatch),
-  }
-}
+const putActionCreatorsToProps = (dispatch) => ({
+  setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
+  setToDoItems: bindActionCreators(setToDoItems, dispatch),
+});
 
 export default connect(putStateToProps, putActionCreatorsToProps)(ToDoItem);

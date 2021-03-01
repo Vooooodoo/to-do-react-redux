@@ -83,22 +83,18 @@ function Main(props) {
   );
 }
 
-const putStateToProps = (state) => {
-  return {
-    createInputValue: state.createInputValue,
-    isCreateInputMaxLength: state.isCreateInputMaxLength,
-    toDoItems: state.toDoItems,
-    isAllCompleted: state.isAllCompleted,
-  }
-}
+const putStateToProps = (state) => ({
+  createInputValue: state.createInputValue,
+  isCreateInputMaxLength: state.isCreateInputMaxLength,
+  toDoItems: state.toDoItems,
+  isAllCompleted: state.isAllCompleted,
+});
 
-const putActionCreatorsToProps = (dispatch) => {
-  return {
-    setCreateInputValue: bindActionCreators(setCreateInputValue, dispatch),
-    setIsCreateInputMaxLength: bindActionCreators(setIsCreateInputMaxLength, dispatch),
-    setToDoItems: bindActionCreators(setToDoItems, dispatch),
-    setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
-  }
-}
+const putActionCreatorsToProps = (dispatch) => ({
+  setCreateInputValue: bindActionCreators(setCreateInputValue, dispatch),
+  setIsCreateInputMaxLength: bindActionCreators(setIsCreateInputMaxLength, dispatch),
+  setToDoItems: bindActionCreators(setToDoItems, dispatch),
+  setIsAllCompleted: bindActionCreators(setIsAllCompleted, dispatch),
+});
 
 export default connect(putStateToProps, putActionCreatorsToProps)(Main);

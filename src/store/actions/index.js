@@ -1,32 +1,24 @@
 import * as actionTypes from '../constants/actionTypes'
 
-const setCreateInputValue = (inputValue) => {
-  return {
-    type: actionTypes.SET_CREATE_INPUT_VALUE,
-    payload: inputValue,
-  }
-}
+const setCreateInputValue = (inputValue) => ({
+  type: actionTypes.SET_CREATE_INPUT_VALUE,
+  payload: inputValue,
+});
 
-const setIsCreateInputMaxLength = (isMaxLength) => {
-  return {
-    type: actionTypes.SET_IS_CREATE_INPUT_VALUE_MAX_LENGTH,
-    payload: isMaxLength,
-  }
-}
+const setIsCreateInputMaxLength = (isMaxLength) => ({
+  type: actionTypes.SET_IS_CREATE_INPUT_VALUE_MAX_LENGTH,
+  payload: isMaxLength,
+});
 
-const setEditInputValue = (inputValue) => {
-  return {
-    type: actionTypes.SET_EDIT_INPUT_VALUE,
-    payload: inputValue,
-  }
-}
+const setEditInputValue = (inputValue) => ({
+  type: actionTypes.SET_EDIT_INPUT_VALUE,
+  payload: inputValue,
+});
 
-const setIsEditInputMaxLength = (isMaxLength) => {
-  return {
-    type: actionTypes.SET_IS_EDIT_INPUT_VALUE_MAX_LENGTH,
-    payload: isMaxLength,
-  }
-}
+const setIsEditInputMaxLength = (isMaxLength) => ({
+  type: actionTypes.SET_IS_EDIT_INPUT_VALUE_MAX_LENGTH,
+  payload: isMaxLength,
+});
 
 const setToDoItems = (toDoItems) => ({
   type: actionTypes.SET_TO_DO_ITEMS,
@@ -34,19 +26,15 @@ const setToDoItems = (toDoItems) => ({
 });
 
 
-const setRadioValue = (radioValue) => {
-  return {
-    type: actionTypes.SET_RADIO_VALUE,
-    payload: radioValue,
-  }
-}
+const setRadioValue = (radioValue) => ({
+  type: actionTypes.SET_RADIO_VALUE,
+  payload: radioValue,
+});
 
-const setIsAllCompleted = (isAllCompleted) => {
-  return {
-    type: actionTypes.SET_IS_ALL_COMPLETED,
-    payload: isAllCompleted,
-  }
-}
+const setIsAllCompleted = (isAllCompleted) => ({
+  type: actionTypes.SET_IS_ALL_COMPLETED,
+  payload: isAllCompleted,
+});
 
 export {
   setCreateInputValue,

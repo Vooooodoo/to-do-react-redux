@@ -110,16 +110,12 @@ function Footer(props) {
   );
 }
 
-const putStateToProps = (state) => {
-  return {
-    toDoItems: state.toDoItems,
-  }
-}
+const putStateToProps = (state) => ({
+  toDoItems: state.toDoItems,
+});
 
-const putActionCreatorsToProps = (dispatch) => {
-  return {
-    setToDoItems: bindActionCreators(setToDoItems, dispatch),
-  }
-}
+const putActionCreatorsToProps = (dispatch) => ({
+  setToDoItems: bindActionCreators(setToDoItems, dispatch),
+});
 
 export default connect(putStateToProps, putActionCreatorsToProps)(Footer);

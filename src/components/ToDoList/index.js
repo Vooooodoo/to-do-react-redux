@@ -87,21 +87,17 @@ function ToDoList(props) {
   );
 }
 
-const putStateToProps = (state) => {
-  return {
-    editInputValue: state.editInputValue,
-    isEditInputMaxLength: state.isEditInputMaxLength,
-    toDoItems: state.toDoItems,
-    radioValue: state.radioValue,
-  }
-}
+const putStateToProps = (state) => ({
+  editInputValue: state.editInputValue,
+  isEditInputMaxLength: state.isEditInputMaxLength,
+  toDoItems: state.toDoItems,
+  radioValue: state.radioValue,
+});
 
-const putActionCreatorsToProps = (dispatch) => {
-  return {
-    setEditInputValue: bindActionCreators(setEditInputValue, dispatch),
-    setIsEditInputMaxLength: bindActionCreators(setIsEditInputMaxLength, dispatch),
-    setToDoItems: bindActionCreators(setToDoItems, dispatch),
-  }
-}
+const putActionCreatorsToProps = (dispatch) => ({
+  setEditInputValue: bindActionCreators(setEditInputValue, dispatch),
+  setIsEditInputMaxLength: bindActionCreators(setIsEditInputMaxLength, dispatch),
+  setToDoItems: bindActionCreators(setToDoItems, dispatch),
+});
 
 export default connect(putStateToProps, putActionCreatorsToProps)(ToDoList);
