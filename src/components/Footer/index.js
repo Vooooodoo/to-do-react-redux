@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { ToDoItemsContext } from '../../contexts/ToDoItemsContext';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setToDoItems } from '../../store/actions';
+import { addDataToLocalStorage } from '../../utils/helpers';
 import Radio from '../Radio';
 
 const StyledFooter = styled.footer`
@@ -65,9 +68,14 @@ const Button = styled.button`
 `
 
 function Footer(props) {
-  const toDoItems = React.useContext(ToDoItemsContext).toDoItems;
+  const toDoItems = props.toDoItems;
   const notCompletedItems = toDoItems.filter(item => !item.isCompleted);
   const completedItems = toDoItems.filter(item => item.isCompleted);
+
+  const handleClearCompletedBtn = () => {
+    props.setToDoItems(notCompletedItems);
+    addDataToLocalStorage(notCompletedItems);
+  }
 
   return (
     <StyledFooter>
@@ -78,17 +86,14 @@ function Footer(props) {
           id="radio-all"
           text="All"
           isChecked
-          onRadioChange={props.onRadioChange}
         />
         <Radio
           id="radio-active"
           text="Active"
-          onRadioChange={props.onRadioChange}
         />
         <Radio
           id="radio-completed"
           text="Completed"
-          onRadioChange={props.onRadioChange}
         />
       </Container>
 
@@ -96,7 +101,7 @@ function Footer(props) {
         <Button
           className="transition"
           type="button"
-          onClick={props.onClearCompletedBtnClick}
+          onClick={handleClearCompletedBtn}
         >
           {`Clear completed [${completedItems.length}]`}
         </Button>
@@ -105,4 +110,12 @@ function Footer(props) {
   );
 }
 
-export default Footer;
+const mapStateToProps = (state) => ({
+  toDoItems: state.toDoItems,
+});
+
+const mapActionCreatorsToProps = (dispatch) => ({
+  setToDoItems: bindActionCreators(setToDoItems, dispatch),
+});
+
+export default connect(mapStateToProps, mapActionCreatorsToProps)(Footer);

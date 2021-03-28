@@ -11,7 +11,7 @@ const Title = styled.h1`
 function Header() {
   return (
     <header>
-      <Title lang="en">To Do App</Title>
+      <Title>To Do App</Title>
     </header>
   );
 }
